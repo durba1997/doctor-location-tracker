@@ -1,179 +1,133 @@
+Sure! Here’s a polished **README.md** for your **Doctor Location Tracker Backend** project that you can directly use in GitHub. I’ve made it detailed, professional, and beginner-friendly:
+
+````markdown
+# Doctor Location Tracker Backend
+
+This is the **backend service** for the Doctor Location Tracker project. It allows patients to request approximate doctor locations **only with doctor permission**, ensuring privacy and legal compliance. The backend is built with **Python Flask** and uses **PostgreSQL** for storing doctor, patient, and location data.  
 
 ---
 
-# 🩺 Doctor Location Tracker (Backend)
+## Features
 
-A Dockerized Flask backend service for tracking doctor locations securely using PostgreSQL.
-Designed to work with an **existing database container** and easy to run on any machine using Docker.
-
----
-
-## 🚀 Features
-
-* Flask REST API
-* PostgreSQL database (Docker)
-* Uses existing DB (`ehospital`)
-* Docker & Docker Compose ready
-* Health check endpoint
-* Clean project structure
-* Easy to share & deploy
+- **Doctor Permission System** – Doctors can give or revoke location-sharing permission.  
+- **On-Demand Approximate Location** – Patients can query doctors’ approximate locations only if permission is granted.  
+- **Dockerized Setup** – Both backend and PostgreSQL database run in Docker containers for easy setup.  
+- **Database Dump Included** – Includes `ehospital_full.sql` to quickly set up the database.  
+- **REST API Endpoints**:  
+  - `GET /health` – Check if the backend is running.  
+  - `POST /doctor/<doctor_id>/permission` – Set doctor location-sharing permission.  
+  - `GET /doctor/<doctor_id>/location` – Get approximate doctor location if permission granted.  
 
 ---
 
-## 🛠 Tech Stack
+## Requirements
 
-* **Backend:** Python (Flask)
-* **Database:** PostgreSQL 15
-* **Containerization:** Docker, Docker Compose
-* **Environment Management:** `.env`
-
----
-
-## 📁 Project Structure
-
-```
-doctor-location-tracker/
-│
-├── backend/
-│   ├── app.py
-│   ├── config.py
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── .env
-│
-├── docker-compose.yml
-└── README.md
-```
+- Docker & Docker Compose
+- Python 3.x
+- PostgreSQL (via Docker)
 
 ---
 
-## ⚙️ Prerequisites
+## Setup Instructions
 
-Make sure you have:
-
-* Docker
-* Docker Compose
-* Git
-
-Check:
-
-```bash
-docker --version
-docker-compose --version
-git --version
-```
-
----
-
-## 🧩 Setup Instructions (Step-by-Step)
-
-### 1️⃣ Clone the repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/durba1997/doctor-location-tracker.git
 cd doctor-location-tracker
-```
+````
 
----
+### 2. Start PostgreSQL container
 
-### 2️⃣ Create Docker network
-
-```bash
-docker network create doctor_network
-```
-
----
-
-### 3️⃣ Run PostgreSQL container
+Make sure Docker is running. Then run:
 
 ```bash
-docker run -d \
-  --name eh_postgres \
-  --network doctor_network \
-  -e POSTGRES_USER=admin \
-  -e POSTGRES_PASSWORD=admin123 \
-  -e POSTGRES_DB=ehospital \
-  -p 5432:5432 \
-  postgres:15
+docker-compose up -d eh_postgres
 ```
 
----
+Or start your existing Postgres container.
 
-### 4️⃣ Create `.env` file
+### 3. Load the database dump
 
-Create `backend/.env`:
-
-```
-DB_HOST=eh_postgres
-DB_PORT=5432
-DB_NAME=ehospital
-DB_USER=admin
-DB_PASSWORD=admin123
+```bash
+docker exec -i eh_postgres psql -U admin -d ehospital < ehospital_full.sql
 ```
 
----
-
-### 5️⃣ Build & run backend
+### 4. Build and start backend
 
 ```bash
 docker-compose up --build -d
 ```
 
----
+This will build the backend Docker image and run it on **[http://localhost:5000](http://localhost:5000)**.
 
-### 6️⃣ Verify backend is running
+### 5. Test backend
 
-Open browser or Postman:
+* Health check:
 
-```
-http://localhost:5000
-http://localhost:5000/health
-```
-
-Expected response:
-
-```json
-{
-  "message": "Doctor Location Tracker Backend Running"
-}
+```bash
+curl http://localhost:5000/health
 ```
 
----
+* Give permission to a doctor (ID 1):
 
-## 🔍 API Endpoints
+```bash
+curl -X POST http://localhost:5000/doctor/1/permission \
+-H "Content-Type: application/json" \
+-d '{"permission": true}'
+```
 
-| Method | Endpoint  | Description      |
-| ------ | --------- | ---------------- |
-| GET    | `/`       | App status check |
-| GET    | `/health` | Health check     |
+* Get doctor location (ID 1):
 
----
-
-## 🧠 How it works (Simple Explanation)
-
-* Flask app runs inside Docker
-* PostgreSQL runs in a separate Docker container
-* Both containers talk via Docker network
-* Backend connects using container name (`eh_postgres`)
-* Ready for frontend or mobile app integration
+```bash
+curl http://localhost:5000/doctor/1/location
+```
 
 ---
 
-## 👨‍💻 Author
+## Database Tables
 
-**Durba Kushari**
-📧 Email: [durbakushari1997@gmail.com](mailto:durbakushari1997@gmail.com)
-🔗 GitHub: [https://github.com/durba1997](https://github.com/durba1997)
+1. **doctors** – Doctor info (id, name, specialization, etc.)
+2. **patients** – Patient info (id, name, etc.)
+3. **locations** – Doctor location info (doctor_id, latitude, longitude, permission)
+4. Other tables from `ehospital_full.sql` for hospital management.
+
+---
+
+## Project Structure
+
+```
+doctor-location-tracker/
+├─ backend/
+│  ├─ app.py
+│  ├─ Dockerfile
+│  ├─ requirements.txt
+│  └─ .env
+├─ ehospital_full.sql
+├─ docker-compose.yml
+└─ README.md
+```
 
 ---
 
-## ⭐ Future Enhancements
+## Notes
 
-* JWT Authentication
-* Doctor & Patient APIs
-* Real-time location updates
-* Frontend (React / Mobile)
-* Deployment on AWS / GCP
+* **Privacy First**: Location sharing only works with explicit doctor permission. No live tracking without consent.
+* **Development Only**: Flask server runs in development mode. For production, use WSGI servers like Gunicorn.
+* **Docker**: Ensure ports `5000` (backend) and `5432` (Postgres) are free.
 
 ---
+
+## License
+
+This project is open-source and free to use for educational purposes.
+
+---
+
+Made with ❤️ by **Durba Kushari**
+
+```
+
+---
+
 
