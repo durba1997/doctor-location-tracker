@@ -1,6 +1,4 @@
-Sure! Here’s a polished **README.md** for your **Doctor Location Tracker Backend** project that you can directly use in GitHub. I’ve made it detailed, professional, and beginner-friendly:
 
-````markdown
 # Doctor Location Tracker Backend
 
 This is the **backend service** for the Doctor Location Tracker project. It allows patients to request approximate doctor locations **only with doctor permission**, ensuring privacy and legal compliance. The backend is built with **Python Flask** and uses **PostgreSQL** for storing doctor, patient, and location data.  
@@ -126,11 +124,4 @@ This project is open-source and free to use for educational purposes.
 
 Made with ❤️ by **Durba Kushari**
 
-```
 
----
-
-If you want, I can also **add badges, like Docker build status and Python version**, so the README looks more professional on GitHub.  
-
-Do you want me to do that?
-```
