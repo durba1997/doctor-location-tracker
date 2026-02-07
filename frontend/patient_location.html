@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Location</title>
+</head>
+<body>
+    <h1>Patient Location Page</h1>
+    <p>Shows approximate location only after doctor consent.</p>
+
+    <script>
+    function showLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                alert(`Latitude: ${pos.coords.latitude}, Longitude: ${pos.coords.longitude}`);
+            }, err => {
+                alert("Permission denied or unavailable.");
+            });
+        } else {
+            alert("Geolocation not supported.");
+        }
+    }
+
+    // Example: run when page loads
+    showLocation();
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+services:
+  backend:
+    build: ./backend
+    container_name: doctor_location_backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5000:5000"
+    networks:
+      - doctor_network
+
+networks:
+  doctor_network:
+    external: true

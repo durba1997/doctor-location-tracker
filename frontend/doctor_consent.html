@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Consent</title>
+</head>
+<body>
+    <h1>Doctor Consent Page</h1>
+    <p>This page will ask for doctor permission before fetching patient location.</p>
+    <button onclick="requestLocation()">Request Location</button>
+
+    <script>
+    function requestLocation() {
+        fetch('http://localhost:5000/')  // test endpoint
+            .then(res => res.text())
+            .then(data => alert(data))
+            .catch(err => console.error(err));
+    }
+    </script>
+</body>
+</html>
