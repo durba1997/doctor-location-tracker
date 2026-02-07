@@ -130,4 +130,7 @@ Made with ❤️ by **Durba Kushari**
 
 ---
 
+If you want, I can also **add badges, like Docker build status and Python version**, so the README looks more professional on GitHub.  
 
+Do you want me to do that?
+```
