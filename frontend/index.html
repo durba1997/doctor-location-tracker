@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Real-Time Location Tracker</title>
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <title>Multi-Doctor Live Tracker</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <style>#map { height: 100vh; width: 100vw; }</style>
 </head>
 <body>
+<div id="map"></div>
 
-<h2>🟢 Live Doctor Location</h2>
-<div id="output">Waiting for location...</div>
-
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script>
-    const socket = io("http://127.0.0.1:5000");
+const map = L.map('map').setView([20.5937, 78.9629], 5);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
-    socket.on("connect", () => {
-        console.log("Connected to server");
-    });
+const socket = io();
+let markers = {};
+let colors = ["red","blue","green","orange","purple","yellow","pink","cyan","brown","black"];
 
-    socket.on("location_broadcast", (data) => {
-        document.getElementById("output").innerHTML = `
-            <b>Doctor ID:</b> ${data.doctor_id}<br>
-            <b>Latitude:</b> ${data.latitude}<br>
-            <b>Longitude:</b> ${data.longitude}
-        `;
-    });
+socket.on('locations_update', (locations) => {
+    let i = 0;
+    for (let doctor_id in locations) {
+        let {lat, lon} = locations[doctor_id];
+        if (markers[doctor_id]) {
+            markers[doctor_id].setLatLng([lat, lon]);
+        } else {
+            let color = colors[i % colors.length];
+            markers[doctor_id] = L.circleMarker([lat, lon], {radius: 10, color: color})
+                .addTo(map)
+                .bindPopup(`Doctor ID: ${doctor_id}`);
+            i++;
+        }
+    }
+});
 </script>
-
 </body>
 </html>
