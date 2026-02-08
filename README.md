@@ -1,58 +1,89 @@
-Got you! Here's a small README with a catchy description included so anyone opening it immediately gets what this project is about 😎
+Here’s a clean README for your real-time doctor tracker with last seen + online/offline 🚀
 
 
 ---
 
 README.md
 
-# Doctor Live Tracking System 🚑
+# Real-Time Doctor Tracking System 🚑
 
-**Track doctors in real-time on a map!**  
-A modern system for hospitals or healthcare apps that allows doctors to broadcast their live location via mobile app, and patients or admins to see them instantly on a web dashboard. Built with Flask + SocketIO + Postgres + React Native + Google Maps.
+**Track doctors live on a map!**  
+Doctors send their GPS from a mobile app, and patients/admins can see them instantly on a web dashboard. Markers show **green = online**, **gray = offline**, with last seen timestamps. No database needed — fully real-time.
+
+---
+
+## Features
+
+- Real-time location updates via **SocketIO**
+- **Last seen tracking** (online/offline)
+- Lightweight: **no database**, in-memory storage only
+- Works on **mobile (React Native/Expo)** + **web dashboard (Google Maps)**
+- Easy to deploy with minimal setup
 
 ---
 
 ## Setup
 
-1️⃣ **Start Postgres**
+### 1️⃣ Backend
+
 ```bash
-cd postgres
-docker-compose up -d
-
-2️⃣ Run Backend
-
 cd backend
 pip install -r requirements.txt
 python app.py
 
-3️⃣ Run Mobile App (Doctor)
+Server runs at http://localhost:5000
+
+2️⃣ Mobile App (Doctor)
 
 cd mobile_app
 npm install
 expo start
 
-4️⃣ Open Web Dashboard
+Sends live location every few seconds
+
+Works in background
+
+
+3️⃣ Web Dashboard
 
 Open web_dashboard/index.html in browser
 
-Update YOUR_SERVER_IP & Google Maps API key
+Replace YOUR_SERVER_IP with backend IP
+
+Google Maps API key required
+
+Dashboard shows online/offline doctors with colored markers
 
 
 
 ---
 
-How it works
+How It Works
 
-Doctor app sends GPS → Flask server → Postgres → broadcasts → web dashboard updates markers live.
+1. Doctor app → SocketIO → Flask server → dashboard
 
-Works in background; last location saved if offline.
+
+2. Backend keeps last seen timestamp
+
+
+3. Dashboard updates markers live and changes online/offline status automatically
+
 
 
 
 ---
 
-Perfect for hospitals, emergency services, or doctor-on-demand apps! 🚀
+Notes
 
-This makes it **professional, descriptive, and still short**.  
+Offline doctors appear gray
 
-If you want, I can also add a **one-line tagline for GitHub** to make it super catchy at the top. Do you want me to do that?
+If server restarts, last seen info is lost
+
+Lightweight and fast, no database required
+
+Can be extended to save history in a DB if needed later
+
+
+
+---
+
