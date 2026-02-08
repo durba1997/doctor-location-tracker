@@ -1,99 +1,58 @@
-Got you! Here’s a clean README.md for your doctor live-tracking Flask socket project:
 
-# Doctor Live Location Tracker
 
-Realtime doctor location tracking system using Flask and WebSockets.
+README.md
 
----
+# Doctor Live Tracking System
 
-## 🚀 Features
+Real-time doctor location tracking using:
 
-- Receive live GPS updates from doctors
-- Broadcast live location to all connected clients in real-time
-- Simple, lightweight Flask + SocketIO backend
-- CORS enabled for cross-origin requests
+- **Backend:** Flask + SocketIO + Postgres (Docker)
+- **Mobile App:** React Native / Expo (doctor device, background GPS)
+- **Web Dashboard:** Google Maps + SocketIO (patients/admin)
 
 ---
 
-## 🛠️ Tech Stack
+## Setup
 
-- **Backend:** Python, Flask, Flask-SocketIO
-- **Realtime Communication:** WebSockets
-- **Frontend:** Any web/mobile client that can connect via SocketIO
-- **Optional Maps:** Google Maps, Leaflet, or Mapbox
-
----
-
-## 💻 Setup
-
-1. Clone repo
+1️⃣ **Start Postgres**
 ```bash
-git clone <your-repo-url>
-cd <repo-folder>
+cd postgres
+docker-compose up -d
 
-2. Create a virtual environment and install dependencies
+2️⃣ Run Backend
 
-
-
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
-
-pip install flask flask-socketio flask-cors
-
-3. Run the server
-
-
-
+cd backend
+pip install -r requirements.txt
 python app.py
 
-Server runs on http://0.0.0.0:5000
+3️⃣ Run Mobile App (Doctor)
 
+cd mobile_app
+npm install
+expo start
 
----
+4️⃣ Open Web Dashboard
 
-📡 Usage
+Open web_dashboard/index.html in browser
 
-Doctor Side (sending location)
-
-const socket = io("http://localhost:5000");
-
-navigator.geolocation.watchPosition(pos => {
-  socket.emit("location_update", {
-    doctor_id: 1,
-    latitude: pos.coords.latitude,
-    longitude: pos.coords.longitude
-  });
-});
-
-Patient Side (receiving location)
-
-socket.on("location_broadcast", data => {
-  console.log("Doctor live location:", data);
-  // Update your map marker here
-});
-
-
----
-
-⚠️ Limitations
-
-Works only when doctor is online and sending location
-
-Browser-based tracking won’t work in background or if phone is locked
-
-For true background tracking, a mobile app with GPS service is required
+Update YOUR_SERVER_IP & Google Maps API key
 
 
 
 ---
 
-🔮 Next Steps
+How it works
 
-Add database logging for last known location
+Doctor app sends GPS → Flask server → Postgres → broadcasts → web dashboard updates markers live.
 
-Build a mobile app for background tracking
+Works in background; last location saved if offline.
 
-Integrate with Google Maps or Leaflet for live map visualization
 
-Implement online/offline status for doctor.
+
+---
+
+Enjoy your live doctor tracking 🚀
+
+This is simple, clear, and enough for quick setup.  
+
+If you want, I can make an **ultra-mini one-line version** too for GitHub description.
