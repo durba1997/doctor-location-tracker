@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Tracker - Doctor</title>
+</head>
+<body>
+    <h2>Doctor Live Location Sender</h2>
+    <p id="status">Waiting for GPS...</p>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        const doctor_id = prompt("Enter your doctor ID:");
+        const socket = io("http://localhost:5000");
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (pos) => {
+                    const latitude = pos.coords.latitude;
+                    const longitude = pos.coords.longitude;
+
+                    socket.emit("location_update", {
+                        doctor_id,
+                        latitude,
+                        longitude
+                    });
+
+                    document.getElementById("status").innerText =
+                        `Sending location: ${latitude}, ${longitude}`;
+                },
+                (err) => {
+                    console.error(err);
+                    alert("GPS error: enable location and refresh!");
+                },
+                { enableHighAccuracy: true, maximumAge: 5000, timeout: 5000 }
+            );
+        } else {
+            alert("Geolocation not supported by your browser.");
+        }
+    </script>
+</body>
+</html>
