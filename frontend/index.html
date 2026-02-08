@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Location Tracker</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+
+<h2>🟢 Live Doctor Location</h2>
+<div id="output">Waiting for location...</div>
+
+<script>
+    const socket = io("http://127.0.0.1:5000");
+
+    socket.on("connect", () => {
+        console.log("Connected to server");
+    });
+
+    socket.on("location_broadcast", (data) => {
+        document.getElementById("output").innerHTML = `
+            <b>Doctor ID:</b> ${data.doctor_id}<br>
+            <b>Latitude:</b> ${data.latitude}<br>
+            <b>Longitude:</b> ${data.longitude}
+        `;
+    });
+</script>
+
+</body>
+</html>
