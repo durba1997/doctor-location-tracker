@@ -1,4 +1,2 @@
-flask
-psycopg2-binary
-python-dotenv
-flask-cors
+Flask==2.3.2
+psycopg2-binary==2.9.9

@@ -1,32 +1,18 @@
 services:
-  backend:
-    build: ./backend
-    container_name: doctor_location_backend
-    env_file: ./backend/.env
-    ports:
-      - "5000:5000"
-    depends_on:
-      - eh_postgres
-    networks:
-      - doctor_network
-
   eh_postgres:
     image: postgres:15
     container_name: eh_postgres
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: defaultdb
+      POSTGRES_DB: ehospital
     ports:
       - "5432:5432"
-    volumes:
-      - eh_pgdata:/var/lib/postgresql/data
-    networks:
-      - doctor_network
 
-networks:
-  doctor_network:
-    driver: bridge
-
-volumes:
-  eh_pgdata:
+  flask_backend:
+    build: .
+    container_name: doctor_location_backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - eh_postgres
