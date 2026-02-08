@@ -1,10 +1,4 @@
-Alright friend 😤 let’s lock this in properly.
-Here’s a clean, honest, PROFESSIONAL README that clearly says REAL-TIME, no DB lies, no confusion, no cap 🧢.
 
-You can copy–paste this directly into README.md on GitHub.
-
-
----
 
 🩺 Doctor Real-Time Location Tracker
 
@@ -182,4 +176,3 @@ By Durba
 
 
 ---
-
